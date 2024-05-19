@@ -174,22 +174,14 @@ def calc_perp(p1 : List[int], p2 : List[int], p3 : List[int] ) -> List[int]:
 # Sets up graph for drawing, returns coordinates for nodes.
 def setup(matrix : np.array):
     (x_coords_index, y_coords_index) =  find_smallest_eigs(matrix)
-    diag = np.diag(np.sum(matrix, axis=0))
-    laplacian = np.subtract(diag, matrix)
     return calc_graph_eig(matrix, x_coords_index, y_coords_index)
 
-pygame.display.set_caption("Graph Plotting with Eigenvectors")
-(WIDTH, HEIGHT) = (720, 720)
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
-mainclock = pygame.time.Clock()
-pygame.init()
-font = pygame.font.Font('freesansbold.ttf', 20)
-
-
-
-
-# print(f"Eigenvalues: {eig_vals}")
-# print(f"Smallest two (nonzero) eigenvalues: {eig_vals[x_coords_index]}, {eig_vals[y_coords_index]}")
+# pygame.display.set_caption("Graph Plotting with Eigenvectors")
+# (WIDTH, HEIGHT) = (720, 720)
+# screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+# mainclock = pygame.time.Clock()
+# pygame.init()
+# font = pygame.font.Font('freesansbold.ttf', 20)
 
 # scale = SCALE
 # x_offset = WIDTH/2
