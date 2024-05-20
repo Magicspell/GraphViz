@@ -4,6 +4,11 @@ import math
 
 ROUND_DIGITS = 2
 
+# Enum for method of getting eigenvaluess from graph
+class EigMode:
+    ADJ = 0     # Adjacency Matrix
+    LAP = 1     # Laplacian (of adjacency matrix)
+
 class Graph:
     def __init__(self, adj_matrix : np.array = np.empty([0, 0])) -> None:
         self.adj_matrix : np.array = adj_matrix
@@ -64,6 +69,19 @@ class Graph:
     def get_coords(self) -> np.array:
         (x_coords_index, y_coords_index) =  find_smallest_eigs(self.adj_matrix)
         return calc_graph_eig(self.adj_matrix, x_coords_index, y_coords_index)
+
+    # Gets eigenvalues of the graph's adjacency matrix.
+    def get_eig_vals(self, mode : int = EigMode.ADJ) -> List[float]:
+        match mode:
+            case EigMode.ADJ:
+                return np.linalg.eig(self.adj_matrix).eigenvalues
+            case EigMode.LAP:
+                diag = np.diag(np.sum(self.adj_matrix, axis=0))
+                laplacian = np.subtract(diag, self.adj_matrix)
+                return np.linalg.eig(laplacian).eigenvalues
+            case _:
+                print(f"ERROR: Invalid mode {mode}.")
+                return None
     
 # _________________________________
 # ----- MATH HELPER FUNCTIONS -----

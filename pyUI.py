@@ -179,18 +179,21 @@ class Clickable(Widget):
 class Text(UIObject):
     def __init__(self, x: float = 0, y: float = 0, width: float = 0, height: float = 0,
             bg_color: Tuple[int] = (0, 0, 0), scaling_axis: int = AxisType.BOTH,
-            coord_axis: int = AxisType.BOTH, text : str = "", font : pygame.font = None) -> None:
+            coord_axis: int = AxisType.BOTH, text : str = "", font : pygame.font = None,
+            text_color : Tuple[int] = (255, 255, 255)) -> None:
         super().__init__(x, y, width, height, bg_color, scaling_axis, coord_axis)
 
         self.text : str = text
         self.font : pygame.font = font
+        self.text_color : Tuple[int] = text_color
+    
     def draw(self, surface : pygame.Surface, p_x : float = 0, p_y : float = 0,
             p_width : float = 0, p_height : float = 0) -> None:
         if self.changed:
             rect = rect_from_p(self.x, self.y, self.width, self.height,
                 p_x, p_y, p_width, p_height, scaling_axis = self.scaling_axis, coord_axis=self.coord_axis)
             pygame.draw.rect(surface, self.bg_color, rect)
-            text_rect = self.font.render(self.text, False, 1)
+            text_rect = self.font.render(self.text, False, self.text_color)
             surface.blit(text_rect, (rect.x, rect.y))
             self.changed = False
 
