@@ -191,6 +191,35 @@ class Spectrum(Widget):
         else:
             self.mid_text = None
 
+# Combines the GraphUIObject and Spectrum into one widget.
+class GraphVisualizer(Widget):
+    def __init__(self, x : float = 0, y : float = 0, width : float = 0, height : float = 0,
+            bg_color : Tuple[int] = (0, 0, 0), objects : List[UIObject] = [],
+            scaling_axis : int = AxisType.BOTH, coord_axis : int = AxisType.BOTH,
+            graph : Graph = None, line_color : Tuple[int] = (255, 255, 255),
+            point_color : Tuple[int] = (150, 150, 255),
+            line_width : int = 1, point_radius : int = 5,
+            draw_lines : bool = True, draw_points : bool = False,
+            eig_mode : int = EigMode.ADJ, plotter_padding : float = 0.1,
+            font : pygame.font.Font = None, vertex_radius : int = 10,
+            vertex_color : Tuple[int] = (255, 0, 0), edge_width : int = 1,
+            edge_color : Tuple[int] = (255, 255, 255)) -> None:
+        super().__init__(x, y, width, height, bg_color, objects, scaling_axis, coord_axis)
+        self.graph : Graph = graph
+
+        self.spectrum : Spectrum = Spectrum(0, 0, 0.5, 1, self.bg_color, graph = self.graph,
+            line_color = line_color, point_color = point_color, line_width = line_width,
+            point_radius = point_radius, draw_lines = draw_lines, draw_points = draw_points,
+            eig_mode = eig_mode, plotter_padding = plotter_padding, font = font)
+        self.objects.append(self.spectrum)
+
+        self.graph_UIObject : GraphUIObject = GraphUIObject(0.5 + plotter_padding,
+            plotter_padding, 0.5 - (plotter_padding * 2), 1 - (plotter_padding *2),
+            self.bg_color, graph = self.graph, vertex_radius = vertex_radius,
+            vertex_color = vertex_color, edge_width = edge_width, edge_color = edge_color)        
+        self.objects.append(self.graph_UIObject)
+
+
 # Helper function for mapping a number from one range to another
 def map_range(x, min1, max1, min2, max2):
     r1 = max1 - min1

@@ -1,30 +1,31 @@
-from graphVizUI import GraphUIObject, Spectrum
+from graphVizUI import GraphUIObject, Spectrum, GraphVisualizer
 from pyUI import Screen
 from graph import Graph
 import numpy as np
 import pygame
 
-# g = GraphUIObject(0, 0, 1, 1, (0, 0, 0), graph = Graph(np.array([
-#     [0, 1, 0],
-#     [1, 0, 1],
-#     [0, 1, 0]
-# ])))
-
-
-# s = Plotter(0, 0, 1, 1, (0, 0, 0), data = [0, 3, 4, 2])
-
-(WIDTH, HEIGHT) = (720, 720)
+(WIDTH, HEIGHT) = (1440, 720)
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.init()
 default_font = pygame.font.Font('freesansbold.ttf', 20)
 
-spectrum = Spectrum(0, 0, 1, 1, (0, 0, 0), font = default_font, graph = Graph(np.array([
-    [0, 1, 0],
-    [1, 0, 1],
-    [0, 1, 0]
-])))
+matrix = np.array([
+    [0, 1, 0, 1, 1, 0, 0, 0],
+    [1, 0, 1, 0, 0, 1, 0, 0],
+    [0, 1, 0, 1, 0, 0, 1, 0],
+    [1, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 1],
+    [0, 1, 0, 0, 1, 0, 1, 0],
+    [0, 0, 1, 0, 0, 1, 0, 1],
+    [0, 0, 0, 1, 1, 0, 1, 0]
+])
 
-s = Screen(0, 0, WIDTH, HEIGHT, objects = [spectrum])
+graph = Graph(matrix)
+
+g = GraphVisualizer(0, 0, 1, 1, (0, 0, 0), graph = graph, font = default_font)
+
+
+s = Screen(0, 0, WIDTH, HEIGHT, objects = [g])
 
 while True:
     for event in pygame.event.get():
